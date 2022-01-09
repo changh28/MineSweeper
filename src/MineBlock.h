@@ -19,4 +19,6 @@ typedef struct {
 	*/
 } mineBlock;
 
+mineBlock blockInit(int selfMine, int mineAmount, int blockStatus);
+
 #endif /* MINEBLOCK_H_ */

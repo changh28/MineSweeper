@@ -35,12 +35,34 @@ void setMine(mineMap emptyMap, int totalMine){
 		int i = 0;
 		while(i < totalMine){
 			int pos = rand() % emptyMap.blockNum; // random position within [0, blockNum-1]
-			if((emptyMap.map[i]).mineNum != 1){ // the block is NOT taken up
-				(emptyMap.map[i]).mineNum = 1; // mine set
+			if((emptyMap.map[pos]).mineNum != 1){ // the block is NOT taken up
+				(emptyMap.map[pos]).mineNum = 1; // mine set
 				i++;
 			}
 		}
 	}
+}
+
+int getX(mineMap target, int pos){
+	int X;
+	if(pos < 0 || pos >= target.blockNum){
+		X = -1;
+		printf("Error: Invalid position outside map\n");
+	}else{
+		X = pos % target.column; // X within [0, column-1]
+	}
+	return X;
+}
+
+int getY(mineMap target, int pos){
+	int Y;
+	if(pos < 0 || pos >= target.blockNum){
+		Y = -1;
+		printf("Error: Invalid position outside map\n");
+	}else{
+		Y = pos / target.column; // Y within [0, row-1]
+	}
+	return Y;
 }
 
 void countMine(mineMap halfMap){
@@ -83,29 +105,24 @@ void countMine(mineMap halfMap){
 	}
 }
 
-int getX(mineMap target, int pos){
-	int X;
-	if(pos < 0 || pos >= target.blockNum){
-		X = -1;
-		printf("Error: Invalid position outside map\n");
-	}else{
-		X = pos % target.column; // X within [0, column-1]
-	}
-	return X;
-}
 
-int getY(mineMap target, int pos){
-	int Y;
-	if(pos < 0 || pos >= target.blockNum){
-		Y = -1;
-		printf("Error: Invalid position outside map\n");
-	}else{
-		Y = pos / target.column; // Y within [0, row-1]
-	}
-	return Y;
-}
 
 int main(void) {
-
+	mineMap a = mapInit(9,9);
+	setMine(a,30);
+	countMine(a);
+	for(int i = 0; i < a.blockNum; i++){
+		printf("%c ",(a.map[i].mineNum==0)? '0' : '*');
+		if((i+1)%9==0){
+			printf("\n");
+		}
+	}
+	printf("\n");
+	for(int i = 0; i < a.blockNum; i++){
+		printf("%d ",a.map[i].dispNum);
+		if((i+1)%9==0){
+					printf("\n");
+		}
+	}
 	return 0;
 }

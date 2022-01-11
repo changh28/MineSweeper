@@ -1,9 +1,9 @@
 /*
- ============================================================================
+ ================================================================================
  Name        : MineSweeper.c
  Author      : CHX
- Copyright   : THIS PROJECT MUST NOT BE COPIED WITHOUT AUTHORIZATION
- ============================================================================
+ Copyright   : This project must NOT be copied or shared without authorization
+ ================================================================================
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -65,6 +65,17 @@ int getY(mineMap target, int pos){
 	return Y;
 }
 
+int getPos(mineMap target, int X, int Y){
+	int pos;
+	if(X < 0 || X >= target.column || Y < 0 || Y >= target.row){
+		printf("Error: Invalid position outside map\n");
+		pos = -1;
+	}else{
+		pos = X + Y*target.column;
+	}
+	return pos;
+}
+
 void countMine(mineMap halfMap){
 	for(int i = 0; i < halfMap.blockNum; i++){
 		if(getY(halfMap, i) == 0){ // upper bound
@@ -105,12 +116,58 @@ void countMine(mineMap halfMap){
 	}
 }
 
+int click(mineMap fullMap, int X, int Y){
+	int result;
+	int pos = getPos(fullMap, X, Y);
+	(fullMap.map[pos]).status = 1; // the block become visible
+	if((fullMap.map[pos]).mineNum == 1){ // clicked a mine
+		printf("Game Over\n");
+		result = 0;
+	}else{
+		result = 1;
+		if((fullMap.map[pos]).dispNum == 0){ // blank & no mine around the block
+			if(X-1 >= 0 && (fullMap.map[getPos(fullMap,X-1,Y)]).status == 2){ // still visible
+				click(fullMap, X-1, Y); // click blank blocks to the left
+			}
+			if(X+1 < fullMap.column && (fullMap.map[getPos(fullMap,X+1,Y)]).status == 2){
+				click(fullMap, X+1, Y); // click blank blocks to the right
+			}
+			if(Y-1 >= 0 && (fullMap.map[getPos(fullMap,X,Y-1)]).status == 2){
+				click(fullMap, X, Y-1); // click blank blocks to the top
+			}
+			if(Y+1 < fullMap.row && (fullMap.map[getPos(fullMap,X,Y+1)]).status == 2){
+				click(fullMap, X, Y+1); // click blank blocks to the bottom
+			}
+		}
+	}
+	return result;
+}
 
+void flag(mineMap fullMap, int X, int Y, int act){
+	// act: 0 -> undo; 1 -> flag
+	int pos = getPos(fullMap, X, Y);
+	(fullMap.map[pos]).status = (act) ? 0 : 2;
+}
+
+int isFinish(mineMap usedMap){
+	int result = 1;
+	for(int i = 0; i < usedMap.blockNum; i++){
+		if((usedMap.map[i]).mineNum == 0 && (usedMap.map[i]).status == 0){
+			result = 0; // incorrectly flagged
+		}
+		if((usedMap.map[i]).mineNum == 0 && (usedMap.map[i]).status == 2){
+			result = 0; // unfinished
+		}
+	}
+	return result;
+}
 
 int main(void) {
 	mineMap a = mapInit(9,9);
-	setMine(a,30);
+	setMine(a,10);
 	countMine(a);
+	int b = click(a,0,8);
+	int c = isFinish(a);
 	for(int i = 0; i < a.blockNum; i++){
 		printf("%c ",(a.map[i].mineNum==0)? '0' : '*');
 		if((i+1)%9==0){
@@ -121,8 +178,17 @@ int main(void) {
 	for(int i = 0; i < a.blockNum; i++){
 		printf("%d ",a.map[i].dispNum);
 		if((i+1)%9==0){
-					printf("\n");
+			printf("\n");
 		}
 	}
+	printf("\n");
+	for(int i = 0; i < a.blockNum; i++){
+		printf("%d ",a.map[i].status);
+		if((i+1)%9==0){
+			printf("\n");
+		}
+	}
+	printf("click result = %d\n",b);
+	printf("if finished = %d\n",c);
 	return 0;
 }

@@ -1,8 +1,9 @@
 /*
- * MineBlock.c
- *
- *  Created on: Dec 24, 2021
- *      Author: CHX
+ ================================================================================
+ Name        : MineBlock.cpp
+ Author      : CHX
+ Copyright   : This project must NOT be copied or shared without authorization
+ ================================================================================
  */
 
 #include "MineBlock.h"

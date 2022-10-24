@@ -2,37 +2,8 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+
 #include "../include/GUI.h"
-
-int initSDL(){
-
-	int result;
-	if(SDL_WasInit(SDL_INIT_EVERYTHING) != 0){
-		std::cerr << "SDL is already initialized\n";
-		result = 1;
-	}else if(SDL_Init(SDL_INIT_EVERYTHING) == -1){
-		throw "Error: Failed to initialize SDL\n";
-		result = -1;
-	}else{
-		std::cerr << "SDL initialized\n";
-		result = 0;
-	}
-	return result;
-}
-
-int stopSDL(){
-
-	int result;
-	if(SDL_WasInit(SDL_INIT_EVERYTHING) == 0){
-		std::cerr << "SDL is not operating\n";
-		result = 0;
-	}else{
-		SDL_Quit();
-		std::cerr << "SDL terminated\n";
-		result = 1;
-	}
-	return result;
-}
 
 int main(int argv, char** args) {
 
@@ -59,5 +30,3 @@ int main(int argv, char** args) {
 
 	return 0;
 }
-
-

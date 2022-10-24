@@ -1,10 +1,3 @@
-/*
- ================================================================================
- Name        : MineMap.h
- Author      : CHX
- Copyright   : This project must NOT be copied or shared without authorization
- ================================================================================
- */
 
 #ifndef MINEMAP_H_
 #define MINEMAP_H_

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
-#include "../include/GUI.h"
+#include "GUI.h"
 
 int initSDL(){
 

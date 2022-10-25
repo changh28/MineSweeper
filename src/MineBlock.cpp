@@ -1,5 +1,5 @@
 
-#include "../include/MineBlock.h"
+#include "MineBlock.h"
 
 mineBlock blockInit(int selfMine, int mineAmount, int blockStatus){
 	

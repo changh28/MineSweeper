@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
-#include "../include/MineMap.h"
+#include "MineMap.h"
 
 
 mineMap mapInit(int m, int n){ // create an m*n block

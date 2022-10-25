@@ -2,8 +2,8 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
-
-#include "../include/GUI.h"
+#include <SDL2/SDL.h>
+#include "GUI.h"
 
 int main(int argv, char** args) {
 
